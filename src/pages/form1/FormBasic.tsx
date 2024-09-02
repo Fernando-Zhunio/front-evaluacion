@@ -21,6 +21,12 @@ export function FormBasic() {
       setInputs(res)
     );
   }, [id]);
+
+  function deleteInput(id: number) {
+    HttpClient.delete(`Evaluacion/Inputs/${id}`).then(() => {
+      setInputs((old) => old.filter((i) => i.id != id));
+    });
+  }
   return (
     <div className="p-3">
       <div className="flex justify-between">
@@ -32,15 +38,21 @@ export function FormBasic() {
       {inputs.map((input) => (
         <div className="mb-2" key={input.id}>
           {input.type != InputType.select ? (
-            <InputBasic
-              type={input.type}
-              label={input.label}
-              name={input.name}
-              placeholder={input.placeholder}
-              value={input.value as string}
-              onChange={(value) =>
-                setValues({ ...values, [input.name]: value })
-              }></InputBasic>
+            <div className="flex justify-between gap-2 items-end">
+              <span className="grow">
+                <InputBasic
+                  
+                  type={input.type}
+                  label={input.label}
+                  name={input.name}
+                  placeholder={input.placeholder}
+                  value={input.value as string}
+                  onChange={(value) =>
+                    setValues({ ...values, [input.name]: value })
+                  }></InputBasic>
+              </span>
+                <button onClick={() => deleteInput(input.id)} className="mr-2 mt-2 rounded-lg px-2 py-1 bg-red-500 text-white"> Eliminar</button>
+            </div>
           ) : null}
         </div>
       ))}

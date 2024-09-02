@@ -35,16 +35,25 @@ export function FormCreateOrEditInput({
       }).then((res: InputResponse) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         cancel && cancel(res);
+      }).catch(() => {
+        setIsLoading(false);
       });
-    //   cancel && cancel();
 
     } else {
       HttpClient.post(`Evaluacion/Inputs`, {
         ...values,
         formHtmlId: formHtmlId,
+      }).then((res: InputResponse) => {
+        // eslint-disable-next-line no-debugger
+        debugger
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        cancel && cancel(res);
+      }).catch(() => {
+        // eslint-disable-next-line no-debugger
+        debugger
+        setIsLoading(false);
       });
     }
-    setIsLoading(false);
   }
 
   return (
@@ -108,8 +117,8 @@ export function FormCreateOrEditInput({
         />
       </div>
       <div className="flex justify-center gap-2 mt-2">
-        <button disabled={isLoading} className="mr-2 rounded-lg px-3 py-1 bg-blue-500 text-white" onClick={send}>Enviar</button>
-        <button disabled={isLoading} className="mr-2 rounded-lg px-3 py-1 bg-red-500 text-white" onClick={() =>cancel()}>Cancelar</button>
+        <button disabled={isLoading} className={`${isLoading ? "is-loading" : ""} mr-2 rounded-lg px-4 py-2 bg-blue-500 text-white`} onClick={send}>Enviar</button>
+        <button disabled={isLoading} className="mr-2 rounded-lg px-4 py-2 bg-red-500 text-white" onClick={() =>cancel()}>Cancelar</button>
       </div>
     </form>
   );
